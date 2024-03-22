@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 # spec/requests/destinations_spec.rb
 
 require 'rails_helper'
 
-RSpec.describe 'Destinations API', type: :request do
+RSpec.describe 'Destinations API', type: :request do # rubocop:disable Metrics/BlockLength
   # Create a test data setup before each test
   before(:each) do
     FactoryBot.create_list(:destination, 10)
-    @token = get_token
+    @token = token
   end
 
   describe 'GET /api/v1/destinations' do
@@ -30,21 +32,20 @@ RSpec.describe 'Destinations API', type: :request do
     end
   end
 
-  private 
-  
-  def get_token
+  private
+
+  def token
     user_params = {
-          user: {
-            username: 'testuser',
-            email: 'testuser@example.com',
-            password: 'password'
-          }
-        }
+      user: {
+        username: 'testuser',
+        email: 'testuser@example.com',
+        password: 'password'
+      }
+    }
 
-        post '/signup', params: user_params.to_json, headers: { 'Content-Type' => 'application/json' }
-        post '/login', params: user_params.to_json, headers: { 'Content-Type' => 'application/json' }
+    post '/signup', params: user_params.to_json, headers: { 'Content-Type' => 'application/json' }
+    post '/login', params: user_params.to_json, headers: { 'Content-Type' => 'application/json' }
 
-        token = response.headers["authorization"]
+    response.headers['authorization']
   end
-
 end

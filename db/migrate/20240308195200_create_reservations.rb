@@ -1,4 +1,6 @@
-class CreateReservations < ActiveRecord::Migration[7.1]
+# frozen_string_literal: true
+
+class CreateReservations < ActiveRecord::Migration[7.1] # rubocop:disable Style/Documentation
   def change
     create_table :reservations do |t|
       t.integer :total_people

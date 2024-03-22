@@ -1,6 +1,8 @@
-class SocialAuthController < ApplicationController
+# frozen_string_literal: true
+
+class SocialAuthController < ApplicationController # rubocop:disable Style/Documentation
   include RackSessionsFix
-  def authenticate_social_auth_user
+  def authenticate_social_auth_user # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     #  params is the response I receive from the client with the data from the provider about the user
     @user = User.signin_or_create_from_provider(params) # this method add a user who is new or logins an old one
 
@@ -9,19 +11,20 @@ class SocialAuthController < ApplicationController
       sign_in(@user)
       # after user is loggedIn, I generate a new_token here
 
-      jwt_token = JWT.encode({  jti: @user.jti, sub: @user.id, scp: "user", aud: nil, exp: Time.now.to_i + 3600 }, Rails.application.credentials.secret_key_base, 'HS256')
+      jwt_token = JWT.encode({ jti: @user.jti, sub: @user.id, scp: 'user', aud: nil, exp: Time.now.to_i + 3600 },
+                             Rails.application.credentials.secret_key_base, 'HS256')
       render json: {
-        status: 'SUCCESS',
-        message: "user was successfully logged in through #{params[:provider]}",
-        headers: { Authorization: jwt_token } 
-      },
+               status: 'SUCCESS',
+               message: "user was successfully logged in through #{params[:provider]}",
+               headers: { Authorization: jwt_token }
+             },
              status: :created
     else
       render json: {
-        status: 'FAILURE',
-        message: "There was a problem signing you in through #{params[:provider]}",
-        data: @user.errors
-      },
+               status: 'FAILURE',
+               message: "There was a problem signing you in through #{params[:provider]}",
+               data: @user.errors
+             },
              status: :unprocessable_entity
     end
   end

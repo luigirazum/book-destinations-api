@@ -13,8 +13,6 @@ Devise.setup do |config|
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
-  # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'd15df8823a6f75d682be2374826c9dfb7d4189fe6de9e0dfbe73b19327f9d7eb57ebd71b5d1010ee3c1c7639e3ae9a1d7c2197d98defbee3886908529e29defc'
   config.jwt do |jwt|
     jwt.secret = Rails.application.credentials.fetch(:secret_key_base)
     jwt.dispatch_requests = [
@@ -136,7 +134,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '8b6f95afe9be52d4bcaef2a3046058fecdf78ea9c79e540529b12302124dd3ac891cb7c4f856c0d99f6f31eef0c6bdadc4195eca93fd6352cd6adc87f79048ce'
+  # config.pepper = '8b6f95afe9be52d4bcaef2a3046058fecdf78ea9c79e540529b12302124dd3ac891cb7c4f856c0d99f6f31eef0c6bdadc4195eca93fd6352cd6adc87f79048ce' # rubocop:disable Layout/LineLength
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
